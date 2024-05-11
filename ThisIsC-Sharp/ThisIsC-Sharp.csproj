@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <RootNamespace>ThisIsC_Sharp</RootNamespace>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Include="6-Method\.Exercise\Ex6_1\MainApp.cs" />
+      <Compile Include="6-Method\.Exercise\Ex6_2\MainApp.cs" />
+      <Compile Include="6-Method\.Exercise\Ex6_3\MainApp.cs" />
+      <Compile Remove="Program.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="7-Class\.Exercise\" />
+    </ItemGroup>
+
+</Project>
