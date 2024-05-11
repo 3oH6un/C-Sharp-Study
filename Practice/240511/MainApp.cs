@@ -4,27 +4,27 @@ public class MainApp
 {
     public static void Main(string[] args)
     {
-        MyClass Q = new MyClass(1, "ASDF");
-        MyClass W = new MyClass();
+        MyClass q = new MyClass(1, "ASDF");
+        MyClass w = new MyClass();
 
-        W.SetA(2);
-        W.SetB("WWDD");
+        w.SetA(2);
+        w.SetB("WWDD");
 
-        MyClass E = Q.Clone();
-        MyClass R = W.Clone();
+        MyClass e = q.Clone();
+        MyClass r = w.Clone();
 
-        Console.WriteLine($"Count의 갯수는 {InstanceCount.GetCount()} 입니다.");
-        Console.WriteLine(Q);
-        Console.WriteLine(W);
-        Console.WriteLine(E);
-        Console.WriteLine(R);
+        Console.WriteLine(q);
+        Console.WriteLine(w);
+        Console.WriteLine(e);
+        Console.WriteLine(r);
+        Console.WriteLine($"인스턴스가 생성된 횟수는 {InstanceCount.GetCount()}번 입니다.");
     }
 }
 
 class MyClass
 {
-    private int _a;
-    private string _b;
+    private int _a = 0;
+    private string _b = "";
 
     public MyClass()
     {
@@ -64,7 +64,7 @@ class MyClass
 
     public override string ToString()
     {
-        return $"a: {_a}, b:{_b}";
+        return $"a:{_a}, b:{_b}";
     }
 }
 

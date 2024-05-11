@@ -27,58 +27,58 @@ public class MainApp
 
 public class Weapon
 {
-    private int type;
-    private string name;
-    private int damage;
-    private int speed;
-    private int count;
+    private int _type;
+    private string _name;
+    private int _damage;
+    private int _speed;
+    private int _count;
 
     public Weapon(int type, string name, int damage, int speed, int count)
     {
-        this.type = type;
-        this.name = name;
-        this.damage = damage;
-        this.speed = speed;
-        this.count = count;
+        this._type = type;
+        this._name = name;
+        this._damage = damage;
+        this._speed = speed;
+        this._count = count;
     }
 
     public int GetType1()
     {
-        return this.type;
+        return this._type;
     }
 
     public string GetName()
     {
-        return this.name;
+        return this._name;
     }
 
     public int GetDamage()
     {
-        return this.damage;
+        return this._damage;
     }
 
     public int GetSpeed()
     {
-        return this.speed;
+        return this._speed;
     }
 
     public int GetCount()
     {
-        return this.count;
+        return this._count;
     }
 
     public new void ToString()
     {
-        Console.WriteLine($"무기의 이름은 {name}입니다.");
-        Console.WriteLine($"무기의 대미지는 {damage}입니다.");
-        Console.WriteLine($"무기의 스피드는 {speed}입니다.");
-        Console.WriteLine($"무기의 갯수는 {count}입니다.");
+        Console.WriteLine($"무기의 이름은 {_name}입니다.");
+        Console.WriteLine($"무기의 대미지는 {_damage}입니다.");
+        Console.WriteLine($"무기의 스피드는 {_speed}입니다.");
+        Console.WriteLine($"무기의 갯수는 {_count}입니다.");
     }
 }
 
 class Animal
 {
-    protected string name;
+    protected string Name = "";
 }
 
 class Cat : Animal
@@ -89,6 +89,6 @@ class Cat : Animal
 
     Cat(string name)
     {
-        this.name = name;
+        this.Name = name;
     }
 }

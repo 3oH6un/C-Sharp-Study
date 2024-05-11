@@ -20,8 +20,8 @@ class MyClass
 {
     public static int Count = 0;
 
-    private int _myField1;
-    private string _myField2;
+    private int _myField1 = 0;
+    private string _myField2 = "";
 
     public MyClass()
     {

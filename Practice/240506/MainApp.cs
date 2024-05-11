@@ -4,14 +4,14 @@ public class MainApp
 {
     public static void _Main(string[] args)
     {
-        MyClass A = new MyClass();
-        MyClass B = new MyClass("ASDF", 10);
+        MyClass a = new MyClass();
+        MyClass b = new MyClass("ASDF", 10);
 
-        A.SetMyField1("WOWOW");
-        A.SetMyField2(100);
+        a.SetMyField1("WOWOW");
+        a.SetMyField2(100);
 
-        Console.WriteLine($"{A.GetMyField1()}, {A.GetMyField2()}");
-        Console.WriteLine($"{B.GetMyField1()}, {B.GetMyField2()}");
+        Console.WriteLine($"{a.GetMyField1()}, {a.GetMyField2()}");
+        Console.WriteLine($"{b.GetMyField1()}, {b.GetMyField2()}");
         Console.WriteLine($"{InstanceCount.GetCount()}");
     }
 }
@@ -20,9 +20,9 @@ static class InstanceCount
 {
     private static int _count = 0;
 
-    public static void SetCount(int Count)
+    public static void SetCount(int count)
     {
-        InstanceCount._count = Count;
+        InstanceCount._count = count;
     }
 
     public static int GetCount()
@@ -33,40 +33,40 @@ static class InstanceCount
 
 class MyClass
 {
-    private string MyField1;
-    private int MyField2;
+    private string _myField1 = "";
+    private int _myField2 = 0;
 
     public MyClass()
     {
-        int Count = InstanceCount.GetCount();
-        Count++;
-        InstanceCount.SetCount(Count);
+        int count = InstanceCount.GetCount();
+        count++;
+        InstanceCount.SetCount(count);
     }
 
-    public MyClass(string MyField1, int MyField2) : this()
+    public MyClass(string myField1, int myField2) : this()
     {
-        this.MyField1 = MyField1;
-        this.MyField2 = MyField2;
+        this._myField1 = myField1;
+        this._myField2 = myField2;
     }
 
-    public void SetMyField1(string MyField1)
+    public void SetMyField1(string myField1)
     {
-        this.MyField1 = MyField1;
+        this._myField1 = myField1;
     }
 
     public string GetMyField1()
     {
-        return MyField1;
+        return _myField1;
     }
 
-    public void SetMyField2(int MyField2)
+    public void SetMyField2(int myField2)
     {
-        this.MyField2 = MyField2;
+        this._myField2 = myField2;
     }
 
     public int GetMyField2()
     {
-        return MyField2;
+        return _myField2;
     }
 
     ~MyClass()
