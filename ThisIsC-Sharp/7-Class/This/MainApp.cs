@@ -2,7 +2,7 @@ namespace ThisIsC_Sharp._7_Class.This;
 
 public class MainApp
 {
-    public static void Main(string[] args)
+    public static void _Main(string[] args)
     {
         Employee pooh = new Employee();
         pooh.SetName("푸");
