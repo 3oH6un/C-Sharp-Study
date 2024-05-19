@@ -2,7 +2,7 @@ namespace Practice._240511;
 
 public class MainApp
 {
-    public static void Main(string[] args)
+    public static void _Main(string[] args)
     {
         MyClass q = new MyClass(1, "ASDF");
         MyClass w = new MyClass();
