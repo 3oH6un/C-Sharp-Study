@@ -120,6 +120,7 @@ public class MainApp
             Console.WriteLine("\n\t■□■□■□■ 배틀그라운드 무기 목록 ■□■□■□■");
             Console.WriteLine("[주무기] [보조무기] [근접무기] [투척무기] [기타]");
             Console.WriteLine("열람을 원하시는 무기의 종류를 입력하세요.");
+            Console.WriteLine("실행을 중단하고 싶으시면 '종료'를 입력하세요.");
             userInput = Console.ReadLine().ToUpper();
             
             switch (userInput)
