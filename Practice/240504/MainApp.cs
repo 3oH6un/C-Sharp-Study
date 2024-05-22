@@ -16,7 +16,6 @@ public class MainApp
         {
             Console.Write($"{weapon.index + 1}.{weapon.value.GetName()} ");
         }
-
         Console.WriteLine("입니다.");
 
         Console.Write("설명을 원하는 무기의 번호를 입력하세요.: ");
