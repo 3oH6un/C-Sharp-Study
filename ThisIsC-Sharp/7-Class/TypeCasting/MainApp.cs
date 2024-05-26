@@ -2,7 +2,7 @@ namespace ThisIsC_Sharp._7_Class.TypeCasting;
 
 public class MainApp
 {
-    public static void Main(string[] args)
+    public static void _Main(string[] args)
     {
         Mammal mammal = new Dog();
         mammal.Nurse();
