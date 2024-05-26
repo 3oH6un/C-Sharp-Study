@@ -1,4 +1,4 @@
-namespace ThisIsC_Sharp.Exercise.Ex6_3;
+namespace ThisIsC_Sharp._Exercise.Ex6_3;
 
 public class MainApp
 {
