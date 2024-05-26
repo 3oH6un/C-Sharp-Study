@@ -1,8 +1,10 @@
-﻿namespace Practice._240522;
+﻿using System.Linq.Expressions;
+
+namespace Practice._240522;
 
 public class MainApp
 {
-    public static void Main(string[] args)
+    public static void _Main(string[] args)
     {
         Weapon[] arWeapons =
         [
@@ -93,34 +95,31 @@ public class MainApp
             new Weapon("40mm 유탄", "M79")
         ];
 
-        SubWeapon[] meleeWeapons =
+        Weapon[] meleeWeapons =
         [
-            new SubWeapon("낫"),
-            new SubWeapon("마체테"),
-            new SubWeapon("쇠지렛대"),
-            new SubWeapon("프라이팬"),
+            new Weapon("낫"),
+            new Weapon("마체테"),
+            new Weapon("쇠지렛대"),
+            new Weapon("프라이팬"),
         ];
 
-        SubWeapon[] throwableWeapons = 
+        Weapon[] throwableWeapons = 
         [
-            new SubWeapon("세열수류탄"),
-            new SubWeapon("연막탄"),
-            new SubWeapon("섬광탄"),
-            new SubWeapon("화염병"),
-            new SubWeapon("점착폭탄"),
-            new SubWeapon("블루존 수류탄"),
-            new SubWeapon("C4"),
-            new SubWeapon("스파이크 트랩")
+            new Weapon("세열수류탄"),
+            new Weapon("연막탄"),
+            new Weapon("섬광탄"),
+            new Weapon("화염병"),
+            new Weapon("점착폭탄"),
+            new Weapon("블루존 수류탄"),
+            new Weapon("C4"),
+            new Weapon("스파이크 트랩")
         ];
-        
+
         string userInput = "";
         
         while (userInput != "종료")
         {
-            Console.WriteLine("\n\t■□■□■□■ 배틀그라운드 무기 목록 ■□■□■□■");
-            Console.WriteLine("[주무기] [보조무기] [근접무기] [투척무기] [기타]");
-            Console.WriteLine("열람을 원하시는 무기의 종류를 입력하세요.");
-            Console.WriteLine("실행을 중단하고 싶으시면 '종료'를 입력하세요.");
+            Text.MainSelect();
             userInput = Console.ReadLine().ToUpper();
             
             switch (userInput)
@@ -141,65 +140,66 @@ public class MainApp
                             
                             foreach (Weapon weapon in arWeapons)
                             {
-                                weapon.OutputInfoTxt();
+                                weapon.OutputMainInfo();
                             }
                             Text.Return();
                             break;
-                    
+                        
                         case "DMR":
                         case "지정사수소총":
                         case "2":
                             Console.WriteLine("\n\t--DMR 지정사수소총 목록--");
                             foreach (Weapon weapon in dmrWeapons)
                             {
-                                weapon.OutputInfoTxt();
+                                weapon.OutputMainInfo();
                             }
                             Text.Return();
                             break;
-                    
+                        
                         case "SR":
                         case "저격소총":
                         case "3":
                             Console.WriteLine("\n\t--SR 저격소총 목록--");
                             foreach (Weapon weapon in srWeapons)
                             {
-                                weapon.OutputInfoTxt();
+                                weapon.OutputMainInfo();
                             }
                             Text.Return();
                             break;
-                    
+                        
                         case "SMG":
                         case "기관단총":
                         case "4":
                             Console.WriteLine("\n\t--SMG 기관단총 목록--");
                             foreach (Weapon weapon in smgWeapons)
                             {
-                                weapon.OutputInfoTxt();
+                                weapon.OutputMainInfo();
                             }
                             Text.Return();
                             break;
-                    
+                        
                         case "SG":
                         case "산탄총":
                         case "5":
                             Console.WriteLine("\n\t--SG 산탄총 목록--");
                             foreach (Weapon weapon in sgWeapons)
                             {
-                                weapon.OutputInfoTxt();
+                                weapon.OutputMainInfo();
                             }
                             Text.Return();
                             break;
-                    
+                        
                         case "LMG":
                         case "경기관총":
                         case "6":
                             Console.WriteLine("\n\t--LMG 경기관총 목록--");
                             foreach (Weapon weapon in lmgWeapons)
                             {
-                                weapon.OutputInfoTxt();
+                                weapon.OutputMainInfo();
                             }
                             Text.Return();
                             break;
+                        
                     } 
                     break;
             
@@ -209,7 +209,7 @@ public class MainApp
                     Console.WriteLine("\n\t--보조무기(권총) 목록--");
                     foreach (Weapon weapon in pistolWeapons)
                     {
-                        weapon.OutputInfoTxt();
+                        weapon.OutputMainInfo();
                     }
                     Text.Return();
                     break;
@@ -218,9 +218,9 @@ public class MainApp
                 case "근접무기": 
                 case "3":
                     Console.WriteLine("\n\t--근접무기 목록--");
-                    foreach (SubWeapon weapon in meleeWeapons)
+                    foreach (Weapon weapon in meleeWeapons)
                     {
-                        weapon.OutputInfoTxt();
+                        weapon.OutputSubInfo();
                     }
                     Text.Return();
                     break;
@@ -228,9 +228,9 @@ public class MainApp
                 case "투척무기": 
                 case "4":
                     Console.WriteLine("\n\t--투척무기 목록--");
-                    foreach (SubWeapon weapon in throwableWeapons)
+                    foreach (Weapon weapon in throwableWeapons)
                     {
-                        weapon.OutputInfoTxt();
+                        weapon.OutputSubInfo();
                     }
                     Text.Return();
                     break;
@@ -240,52 +240,52 @@ public class MainApp
                     Console.WriteLine("\n\t--기타 무기 목록--");
                     foreach (Weapon weapon in miscWeapons)
                     {
-                        weapon.OutputInfoTxt();
+                        weapon.OutputMainInfo();
                     }
                     Text.Return();
                     break;
+                
             }
         }
     }
 }
 
-class SubWeapon
+class Weapon
 {
     private string _name;
-    
-    public SubWeapon(string name)
+    private string _ammo;
+
+    public Weapon(string ammo, string name)
+    {
+        this._name = name;
+        this._ammo = ammo;
+    }
+
+    public Weapon(string name)
     {
         this._name = name;
     }
 
-    public virtual void OutputInfoTxt()
+    public void OutputMainInfo()
+    {
+        Console.WriteLine($"탄약:{_ammo}\t이름:{_name}");
+    }
+
+    public void OutputSubInfo()
     {
         Console.WriteLine($"이름:{_name}");
     }
-
-    public string GetName()
-    {
-        return this._name;
-    }
 }
 
-class Weapon : SubWeapon
+class Text // 출력 메시지 관리
 {
-    private string _ammo;
-
-    public Weapon(string ammo, string name) : base(name)
+    public static void MainSelect()
     {
-        this._ammo = ammo;
+        Console.WriteLine("\n\t■□■□■□■ 배틀그라운드 무기 목록 ■□■□■□■");
+        Console.WriteLine("[주무기] [보조무기] [근접무기] [투척무기] [기타]");
+        Console.WriteLine("열람을 원하시는 무기의 종류를 입력하세요.");
+        Console.WriteLine("실행을 중단하고 싶으시면 '종료'를 입력하세요.");
     }
-    
-    public override void OutputInfoTxt()
-    {
-        Console.WriteLine($"탄약:{_ammo}\t이름:{GetName()}");
-    }
-}
-
-class Text
-{
     public static void Return()
     {
         Console.WriteLine("\n처음으로 돌아가려면 Enter 키를 누르세요.");
@@ -298,5 +298,10 @@ class Text
         Thread.Sleep(500);
         Console.WriteLine(".");
         Thread.Sleep(500);
+    }
+
+    public static void Error1()
+    {
+        Console.WriteLine("올바른 값을 입력해주세요.");
     }
 }
