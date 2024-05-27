@@ -278,6 +278,7 @@ public class TextManager
         Thread.Sleep(3000);
         Console.WriteLine("\n계속하려면 Enter를 누르세요.");
         Console.ReadLine();
+
         Console.Clear();
         Thread.Sleep(1000);
         Console.WriteLine("당신은 도박에 빠져 방탕한 나날을 보내다");
@@ -298,6 +299,7 @@ public class TextManager
         Thread.Sleep(3000);
         Console.WriteLine("\n계속하려면 Enter를 누르세요.");
         Console.ReadLine();
+
         Console.Clear();
         Thread.Sleep(1000);
         Console.WriteLine("당신의 삶으로 돌아가세요.");
