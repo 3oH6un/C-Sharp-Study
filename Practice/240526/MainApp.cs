@@ -246,7 +246,7 @@ public class TextManager
         Thread.Sleep(500);
         Console.Write(".");
         Thread.Sleep(500);
-        Console.Write(".");
+        Console.WriteLine(".");
         Thread.Sleep(500);
         Console.WriteLine("당신은 모든 소지금을 잃어 파산 했습니다.");
         Thread.Sleep(1000);
@@ -268,11 +268,11 @@ public class TextManager
         Thread.Sleep(1000);
         Console.WriteLine(".");
         Thread.Sleep(1000);
-        Console.WriteLine("집 보증금이 없어 쫒겨날 위기에 놓였던 당신은");
+        Console.WriteLine("월세가 없어 항상 고개 숙여야했던 당신은");
         Thread.Sleep(3000);
         Console.WriteLine("미친 배팅 실력으로 많은 돈을 얻었습니다.");
         Thread.Sleep(3000);
-        Console.WriteLine("당신은 더이상 집주인의 행패에 굴하지 않게 되었습니다.");
+        Console.WriteLine("당신은 당당히 월세를 지불했고, 집주인에게 신뢰를 회복했습니다.");
         Thread.Sleep(3000);
         Console.WriteLine("이제 당신의 삶을 즐기십시오.");
         Thread.Sleep(3000);
