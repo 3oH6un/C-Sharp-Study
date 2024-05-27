@@ -27,7 +27,7 @@ public class MainApp
             if (user.Money < Convert.ToDouble(userInput))
             {
                 textManager.Error();
-                return;
+                continue;
             }
             
             user.BatMoney = Convert.ToDouble(userInput);
