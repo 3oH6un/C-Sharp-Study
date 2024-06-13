@@ -277,7 +277,7 @@ class Weapon
     }
 }
 
-class Text // 출력 메시지 관리
+class Text // 출력 메시지 관리 
 {
     public static void MainSelect()
     {
