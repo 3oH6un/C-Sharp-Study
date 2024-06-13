@@ -1,7 +1,6 @@
 ﻿using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.Dynamic;
-using Practice._240522;
 
 namespace Practice._240526;
 
