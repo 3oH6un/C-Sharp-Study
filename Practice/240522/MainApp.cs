@@ -4,7 +4,7 @@ namespace Practice._240522;
 
 public class MainApp
 {
-    public static void _Main(string[] args)
+    public static void _Main()
     {
         Weapon[] arWeapons =
         [
