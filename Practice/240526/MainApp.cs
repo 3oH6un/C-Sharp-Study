@@ -6,7 +6,7 @@ namespace Practice._240526;
 
 public class MainApp
 {
-    public static void _Main()
+    public static void _Main(string[] args)
     {
         string userInput = "";
         
