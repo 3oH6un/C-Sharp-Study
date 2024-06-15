@@ -88,7 +88,7 @@ public class MemoController
     {
         string memos = _memoService.ToStringMemos();
         Console.Clear();
-        Console.WriteLine(_memoService.ToStringMemos());
+        Console.WriteLine(memos);
         if (string.IsNullOrEmpty(memos))
         {
             Console.WriteLine("\n아직 저장된 메모가 없습니다.");
