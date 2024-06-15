@@ -88,14 +88,17 @@ public class MemoController
     {
         string memos = _memoService.ToStringMemos();
         Console.Clear();
+        
         if (string.IsNullOrEmpty(memos))
         {
             Console.WriteLine("\n아직 저장된 메모가 없습니다.");
         }
+        
         else
         {
             Console.WriteLine(memos);
         }
+        
         Console.WriteLine("\n처음으로 돌아가시거나 입력을 계속하시면 Enter 키를 눌러주세요.\n");
         Console.ReadLine();
         Console.Clear();
