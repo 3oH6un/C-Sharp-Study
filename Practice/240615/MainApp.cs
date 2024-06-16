@@ -5,28 +5,29 @@ public class MainApp
     static void Main(string[] args)
     {
         MemoController memoController = new MemoController();
-        
+
         memoController.StartProgram();
 
         while (true)
         {
-            string userInput = memoController.ReadUserInput();
-            
+            string userInput = memoController.GetUserInput();
+
             if (userInput == "종료")
             {
                 memoController.ExitProgramForSecond(1);
                 break;
             }
-            
+
             else if (userInput == "저장")
             {
                 memoController.SaveTitle();
                 memoController.StartProgram();
             }
-            
+
             else if (userInput == "보기")
             {
-                memoController.PrintMemos();
+                // memoController.PrintMemos();
+                memoController.PrintTitles();
                 memoController.StartProgram();
                 memoController.PrintTemp();
             }
@@ -51,7 +52,7 @@ public class MemoController
         Console.WriteLine("메모하실 내용을 아래에 입력해주세요.");
     }
 
-    public string ReadUserInput()
+    public string GetUserInput()
     {
         var userInput = Console.ReadLine();
         userInput = userInput ?? "";
@@ -66,12 +67,23 @@ public class MemoController
     public void SaveTitle()
     {
         Console.WriteLine("\n저장하시려는 내용의 제목을 입력해주세요.");
-        string? userInput = Console.ReadLine();
-        _memoService.SaveMemo(userInput);
+        string userInput = GetUserInput();
+
+        while (_memoService.SaveMemo(userInput) == 1)
+        {
+            Console.WriteLine("올바른 제목을 입력해주세요.");
+            userInput = GetUserInput();
+        }
+
         _memoService.ClearTemp();
         Console.WriteLine($"\n제목:{userInput} 으로 저장되었습니다.");
+        AfterPrint();
+    }
+
+    private void AfterPrint()
+    {
         Console.WriteLine("처음으로 돌아가시거나 입력을 계속하시면 Enter 키를 눌러주세요.");
-        Console.ReadLine();
+        GetUserInput();
         Console.Clear();
     }
 
@@ -83,25 +95,45 @@ public class MemoController
             Console.WriteLine(temps);
         }
     }
-    
+
+    public void PrintTitles()
+    {
+        Console.Clear();
+        string titles = _memoService.GetTitles();
+        List<string> titleList = [..titles.Split("\n")];
+        Console.WriteLine(titles);
+        Console.WriteLine("열람하실 메모의 제목을 입력해주세요.");
+        int idx = titleList.BinarySearch(GetUserInput());
+        Console.Clear();
+
+        while (idx < 0)
+        {
+            Console.WriteLine(titles);
+            Console.WriteLine("올바른 제목을 입력해주세요.");
+            idx = titleList.BinarySearch(GetUserInput());
+            Console.Clear();
+        }
+
+        Console.WriteLine($"idx: {idx}");
+        Console.WriteLine(_memoService.GetMemo(idx));
+        AfterPrint();
+    }
+
     public void PrintMemos()
     {
         string memos = _memoService.ToStringMemos();
-        Console.Clear();
-        
+
         if (string.IsNullOrEmpty(memos))
         {
             Console.WriteLine("\n아직 저장된 메모가 없습니다.");
         }
-        
+
         else
         {
             Console.WriteLine(memos);
         }
-        
-        Console.WriteLine("\n처음으로 돌아가시거나 입력을 계속하시면 Enter 키를 눌러주세요.\n");
-        Console.ReadLine();
-        Console.Clear();
+
+        AfterPrint();
     }
 
     public void ExitProgramForSecond(int time)
@@ -133,11 +165,17 @@ public class MemoService
         return _temp;
     }
 
-    public void SaveMemo(string? title)
+    public int SaveMemo(string title)
     {
+        if (string.IsNullOrEmpty(title))
+        {
+            return 1;
+        }
+
         string content = string.Join("\n", _temp);
         Memo memo = new Memo(title, content);
         _memoRepository.AddMemo(memo);
+        return 0;
     }
 
     public string ToStringMemos()
@@ -150,6 +188,29 @@ public class MemoService
         }
 
         return string.Join("\n", allMemo);
+    }
+
+    public string GetTitles()
+    {
+        List<Memo> memos = _memoRepository.GetDatabase();
+        List<string> titles = [];
+        foreach (var memo in memos)
+        {
+            titles.Add(memo.GetTitle());
+        }
+
+        return string.Join("\n", titles);
+    }
+
+    public string GetMemo(int idx)
+    {
+        List<Memo> memos = _memoRepository.GetDatabase();
+        List<string> memo = [
+            $"제목: {memos[idx].GetTitle()}",
+            memos[idx].GetContent()
+        ];
+
+        return string.Join("\n", memo);
     }
 }
 
@@ -172,16 +233,16 @@ public class MemoRepository
 // 엔티티(데이터)
 public class Memo
 {
-    private string? _title;
+    private string _title;
     private string _content;
 
-    public Memo(string? title, string content)
+    public Memo(string title, string content)
     {
         this._title = title;
         this._content = content;
     }
 
-    public string? GetTitle()
+    public string GetTitle()
     {
         return this._title;
     }
