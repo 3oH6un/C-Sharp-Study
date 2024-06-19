@@ -77,7 +77,6 @@ public class MemoController
         AfterPrint();
     }
 
-
     public void PrintTemp()
     {
         List<string> temp = _memoService.GetTemp();
@@ -93,12 +92,13 @@ public class MemoController
         Console.Clear();
         string titles = _memoService.GetTitles();
         List<string> titleList = [..titles.Split("\n")];
+        // titleList.Sort();
         Console.WriteLine(titles);
         Console.WriteLine("\n열람하실 메모의 제목을 입력해주세요.");
         int idx = titleList.BinarySearch(GetUserInput());
         Console.Clear();
         
-        while (idx < -1)
+        while (idx < 0)
         {
             Console.WriteLine(titles);
             Console.WriteLine("\n올바른 제목을 입력해주세요.");
@@ -155,15 +155,15 @@ public class MemoController
     {
         string titles = _memoService.GetTitles();
         List<string> titleList = [..titles.Split("\n")];
+        // titleList.Sort();
         int idx = titleList.BinarySearch(text);
         
         while (idx >= 0)
         {
             Console.WriteLine($"{text}이(가) 이미 있습니다. 다른 제목을 입력해주세요.");
-            text = GetUserInput();
-            idx = titleList.BinarySearch(text);
+            idx = titleList.BinarySearch(text = GetUserInput());
         }
-
+        
         return text;
     }
 }
@@ -208,18 +208,18 @@ public class MemoService
         }
     }
 
-    public string ToStringMemos()
-    {
-        List<Memo> memos = _memoRepository.GetDatabase();
-        List<string?> allMemo = [];
-        
-        foreach (var memo in memos)
-        {
-            allMemo.Add(memo.ToString());
-        }
-
-        return string.Join("\n", allMemo);
-    }
+    // public string ToStringMemos()
+    // {
+    //     List<Memo> memos = _memoRepository.GetDatabase();
+    //     List<string?> allMemo = [];
+    //     
+    //     foreach (var memo in memos)
+    //     {
+    //         allMemo.Add(memo.ToString());
+    //     }
+    //
+    //     return string.Join("\n", allMemo);
+    // }
 
     public string GetTitles()
     {
