@@ -102,7 +102,6 @@ public class MemoController
         Console.Clear();
         string titles = _memoService.GetTitles();
         List<string> titleList = [..titles.Split("\n")];
-        titleList.Sort();
         Console.WriteLine(titles);
 
         if (_memoService.CheckForEmpty(titles) == 1)
