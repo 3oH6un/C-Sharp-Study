@@ -65,13 +65,25 @@ public class MemoController
 
     public void SaveTitle()
     {
-        Console.WriteLine("\n저장하시려는 내용의 제목을 입력해주세요.");
-        string userInput = GetUserInput();
-        TitleCheckForEmpty(userInput);
-        string checkedInput = TitleCheckForOverlap(userInput); // 제목 중복 확인 후 입력값 반환
-        _memoService.SaveMemo(checkedInput);
-        _memoService.ClearTemp();
-        Console.WriteLine($"\n제목:{checkedInput} (으)로 저장되었습니다.");
+        string temps = string.Join("\n", _memoService.GetTemp());
+        
+        if (_memoService.CheckForEmpty(temps) == 1)
+        {
+            Console.Clear();
+            Console.WriteLine("\n작성된 내용이 없습니다.");
+        }
+
+        else
+        {
+            Console.WriteLine("\n저장하시려는 내용의 제목을 입력해주세요.");
+            string userInput = GetUserInput();
+            TitleCheckForEmpty(userInput);
+            string checkedInput = TitleCheckForOverlap(userInput); // 제목 중복 확인 후 입력값 반환
+            _memoService.SaveMemo(checkedInput);
+            _memoService.ClearTemp();
+            Console.WriteLine($"\n제목:{checkedInput} (으)로 저장되었습니다.");
+        }
+        
         AfterPrint();
     }
 
@@ -90,24 +102,34 @@ public class MemoController
         Console.Clear();
         string titles = _memoService.GetTitles();
         List<string> titleList = [..titles.Split("\n")];
-        // titleList.Sort();
+        titleList.Sort();
         Console.WriteLine(titles);
-        Console.WriteLine("\n열람하실 메모의 제목을 입력해주세요.");
-        string userInput = GetUserInput();
-        int idx = titleList.BinarySearch(userInput);
-        Console.Clear();
-        
-        while (idx < 0)
+
+        if (_memoService.CheckForEmpty(titles) == 1)
         {
-            Console.WriteLine(titles);
-            Console.WriteLine($"\n{userInput}을(를) 찾을 수 없습니다. 올바른 제목을 입력해주세요.");
-            userInput = GetUserInput();
-            idx = titleList.BinarySearch(userInput);
+            Console.WriteLine("저장된 메모가 없습니다.");
+        }
+
+        else
+        {
+            _memoService.CheckForEmpty(titles);
+            Console.WriteLine("\n열람하실 메모의 제목을 입력해주세요.");
+            string userInput = GetUserInput();
+            int idx = titleList.BinarySearch(userInput);
             Console.Clear();
+
+            while (idx < 0)
+            {
+                Console.WriteLine(titles);
+                Console.WriteLine($"\n{userInput}을(를) 찾을 수 없습니다. 올바른 제목을 입력해주세요.");
+                idx = titleList.BinarySearch(userInput = GetUserInput());
+                Console.Clear();
+            }
+
+            Console.WriteLine($"idx: {idx}");
+            Console.WriteLine(_memoService.GetMemo(idx));
         }
         
-        Console.WriteLine($"idx: {idx}");
-        Console.WriteLine(_memoService.GetMemo(idx));
         AfterPrint();
     }
 
