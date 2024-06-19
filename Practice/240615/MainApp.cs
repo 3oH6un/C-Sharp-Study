@@ -2,7 +2,7 @@ namespace Practice._240615;
 
 public class MainApp
 {
-    static void _Main( )
+    static void Main( )
     {
         MemoController memoController = new MemoController();
         memoController.StartProgram();
@@ -55,7 +55,7 @@ public class MemoController
     {
         var userInput = Console.ReadLine();
         userInput = userInput ?? "";
-        return userInput;
+        return userInput.Trim();
     }
 
     public void SaveTemp(string text)
@@ -101,7 +101,8 @@ public class MemoController
         {
             Console.WriteLine(titles);
             Console.WriteLine($"\n{userInput}을(를) 찾을 수 없습니다. 올바른 제목을 입력해주세요.");
-            idx = titleList.BinarySearch(GetUserInput());
+            userInput = GetUserInput();
+            idx = titleList.BinarySearch(userInput);
             Console.Clear();
         }
         
