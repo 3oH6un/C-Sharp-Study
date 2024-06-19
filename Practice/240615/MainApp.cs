@@ -115,14 +115,14 @@ public class MemoController
             _memoService.CheckForEmpty(titles);
             Console.WriteLine("\n열람하실 메모의 제목을 입력해주세요.");
             string userInput = GetUserInput();
-            int idx = titleList.BinarySearch(userInput);
+            int idx = titleList.IndexOf(userInput);
             Console.Clear();
 
             while (idx < 0)
             {
                 Console.WriteLine(titles);
                 Console.WriteLine($"\n{userInput}을(를) 찾을 수 없습니다. 올바른 제목을 입력해주세요.");
-                idx = titleList.BinarySearch(userInput = GetUserInput());
+                idx = titleList.IndexOf(userInput = GetUserInput());
                 Console.Clear();
             }
 
