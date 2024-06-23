@@ -2,7 +2,7 @@ namespace Practice._240615;
 
 public class MainApp
 {
-    static void Main( )
+    static void _Main( )
     {
         MemoController memoController = new MemoController();
         memoController.StartProgram();
