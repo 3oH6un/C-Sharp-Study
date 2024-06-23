@@ -1,4 +1,4 @@
-namespace Practice._240505;
+namespace Practice._2_Practice;
 
 public class MainApp
 {

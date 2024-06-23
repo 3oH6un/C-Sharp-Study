@@ -1,6 +1,4 @@
-﻿using System.Collections;
-
-namespace Practice._240614;
+﻿namespace Practice._9_Notepad.Initial;
 
 public class MainApp
 {

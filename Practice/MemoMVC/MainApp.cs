@@ -1,4 +1,4 @@
-namespace Practice.MemoMVC;
+namespace Practice._10_Calculator._8_RockPaperScissors.Corrected.MemoMVC;
 
 public class MainApp
 {

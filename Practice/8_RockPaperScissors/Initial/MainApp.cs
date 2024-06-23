@@ -1,27 +1,21 @@
-﻿using System.Data.SqlTypes;
-using System.Diagnostics;
-using System.Dynamic;
-
-namespace Practice._240526;
+﻿namespace Practice._8_RockPaperScissors.Initial;
 
 public class MainApp
 {
     public static void _Main(string[] args)
     {
-        string userInput = "";
-        
         Random ran = new Random();
         User user = new User();
         TextManager textManager = new TextManager(user);
         
-        while (userInput != "종료")
+        while (true)
         {
             int aiSelect = 0;
             int select = 0;
             
             aiSelect = ran.Next(0, 3);
             textManager.Bating();
-            userInput = Console.ReadLine();
+            string? userInput = Console.ReadLine();
 
             if (user.Money < Convert.ToDouble(userInput))
             {
@@ -36,9 +30,6 @@ public class MainApp
             
             switch (userInput)
             {
-                case "종료":
-                    return;
-                
                 case "가위":
                 case "1":
                     select = 0;

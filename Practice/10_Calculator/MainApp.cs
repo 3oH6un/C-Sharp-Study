@@ -1,4 +1,4 @@
-﻿namespace Practice._240621;
+﻿namespace Practice._10_Calculator;
 
 public class MainApp
 {

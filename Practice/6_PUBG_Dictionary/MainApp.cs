@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace Practice._240522;
+﻿namespace Practice._6_PUBG_Dictionary;
 
 public class MainApp
 {
