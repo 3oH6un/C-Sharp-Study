@@ -8,4 +8,9 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="2024_05\" />
+      <Folder Include="2024_06\" />
+    </ItemGroup>
+
 </Project>

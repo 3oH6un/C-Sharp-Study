@@ -1,4 +1,4 @@
-﻿namespace Practice._6_PUBG_Dictionary;
+﻿namespace Practice._2024_05.PUBG_Dictionary.Initial;
 
 public class MainApp
 {

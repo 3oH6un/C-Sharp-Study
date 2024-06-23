@@ -1,4 +1,4 @@
-﻿namespace Practice._8_RockPaperScissors.Initial;
+﻿namespace Practice._2024_05.RockPaperScissors.Initial;
 
 public class MainApp
 {

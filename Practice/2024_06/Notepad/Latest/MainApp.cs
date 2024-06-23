@@ -1,4 +1,4 @@
-namespace Practice._9_Notepad;
+namespace Practice._2024_06.Notepad.Latest;
 
 public class MainApp
 {

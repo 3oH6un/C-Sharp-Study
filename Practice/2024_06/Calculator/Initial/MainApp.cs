@@ -1,8 +1,8 @@
-﻿namespace Practice._10_Calculator;
+﻿namespace Practice._2024_06.Calculator.Initial;
 
 public class MainApp
 {
-    public static void Main(string[] args)
+    public static void _Main(string[] args)
     {
         TextManager textManager = new TextManager();
         
