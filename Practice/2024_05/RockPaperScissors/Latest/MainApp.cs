@@ -353,6 +353,7 @@ public class Processing
                 aiSelect = "보";
                 break;
         }
+        
         return aiSelect;
     }
     
