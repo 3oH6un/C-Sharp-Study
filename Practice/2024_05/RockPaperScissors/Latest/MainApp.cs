@@ -1,4 +1,4 @@
-﻿using System.Xml.Serialization;
+﻿using Practice._2024_05.PUBG_Dictionary.Initial;
 
 namespace Practice._2024_05.RockPaperScissors.Latest;
 
@@ -7,23 +7,57 @@ public class MainApp
     static void Main()
     {
         TextManager textManager = new TextManager();
-        textManager.StartProgram();
-
         while (true)
         {
             textManager.PrintMain();
-
             var userInput = textManager.GetUserInput();
-            textManager.SelectBatMoney(userInput);
-            textManager.PlayerSelect();
-            textManager.BranchResult();
+
+            if (userInput == "종료")
+            {
+                break;
+            }
+            
+            if (userInput == "재시작")
+            {
+                textManager.ReStart();
+                textManager = new TextManager();
+                continue;
+            }
+            
+            textManager.PlayerBating(userInput); 
+            textManager.PlayerSelect(); 
+
+            if (textManager.GameReset() == 1)
+            {
+                textManager = new TextManager();
+                continue;
+            }
+            
+            textManager.AiBating();
+            textManager.AiSelect();
+            textManager.Result();
         }
     }
 }
 
+// @@@@@@@@@@@@@@@@@@@
+// @@@@@입출력 관리@@@@@
+// @@@@@@@@@@@@@@@@@@@
 public class TextManager
 {
-    private Processing _processing = new Processing();
+    private Processing _processing;
+    private int _count;
+    
+    public TextManager()
+    {
+        _processing = new Processing();
+        _count = 0;
+    }
+
+    public int GameReset()
+    {
+        return _count;
+    }
     
     public string GetUserInput()
     {
@@ -32,37 +66,33 @@ public class TextManager
         return userInput.Trim();
     }
     
-    public void StartProgram()
-    {
-        _processing.ResetMoney();
-    }
-    
     public void PrintMain()
     {
         Console.Clear();
         Console.WriteLine("$$$ 배팅 가위바위보 $$$");
         Console.WriteLine("원하시는 배팅 금액을 입력해주세요.");
         Console.WriteLine("종료하시려면 '종료'를 입력해주세요.");
-        Console.Write($"현재 소지금: {_processing.GetPlayerMoney()}\n");
+        Console.Write($"현재 소지금: {_processing.GetPlayerMoney()}\t상대방 소지금: {_processing.GetAiMoney()}\n");
     }
 
-    public void SelectBatMoney(string userInput)
+    public void ReStart()
     {
-        while (_processing.CheckForEmpty(userInput) == -1)
+        Console.Clear();
+        Console.WriteLine("게임을 재시작합니다.");
+        Thread.Sleep(500);
+        Console.Clear();
+        Thread.Sleep(500);
+    }
+
+    public void PlayerBating(string userInput)
+    {
+        while (_processing.CheckForInput(userInput))
         {
             Error();
             userInput = GetUserInput();
         }
-
-        int batMoney = Convert.ToInt32(userInput);
         
-        while (batMoney > _processing.GetPlayerMoney())
-        {
-            Error();
-            batMoney = Convert.ToInt32(GetUserInput());
-        }
-        
-        _processing.SaveBatMoney(batMoney);
+        _processing.SavePlayerBatMoney(Convert.ToInt32(userInput));
     }
     
     public int PlayerSelect()
@@ -71,34 +101,66 @@ public class TextManager
         Console.WriteLine($"현재 소지금: {_processing.GetPlayerMoney()}");
         Console.WriteLine($"현재 배팅금: {_processing.GetPlayerBatMoney()}");
         Console.WriteLine("1)가위, 2)바위, 3)보 중에서 하나를 선택해주세요.");
-        int userInput = _processing.SelectCase(GetUserInput());
+        _processing.SelectCase(GetUserInput());
         
-        while (userInput == -1)
+        while (_processing.GetPlayerSelect() == -1)
         {
             Error();
-            userInput = _processing.SelectCase(GetUserInput());
-        }
-
-        if (userInput == 3)
-        {
-            Bankrupt();
+            _processing.SelectCase(GetUserInput());
         }
         
-        else if (userInput == 4)
+        if (_processing.GetPlayerSelect() == 3)
         {
-            Ending1();
-            _processing.ResetMoney();
-            _processing.ResetBatMoney();
+            PlayerBankrupt();
+            _count = 1;
+        }
+        
+        else if (_processing.GetPlayerSelect() == 4)
+        {
+            PlayerEnding();
+            _count = 1;
+        }
+        
+        else if (_processing.GetPlayerSelect() == 5)
+        {
+            AiBankrupt();
+            _count = 1;
+        }
+        
+        else if (_processing.GetPlayerSelect() == 6)
+        {
+            AiEnding();
+            _count = 1;
         }
 
-        return userInput;
+        return _processing.GetPlayerSelect();
     }
 
-    private void PrintAiSelect()
+    public void AiBating()
     {
-        _processing.ResetAiSelect();
+        Debug(); //
+        _processing.AiBating();
         Console.Clear();
-        Console.Write("컴퓨터가 신중하게 선택하고 있습니다");
+        Console.Write("상대방이 배팅하고 있습니다");
+        Thread.Sleep(500);
+        Console.Write(".");
+        Thread.Sleep(500);
+        Console.WriteLine(".");
+        Thread.Sleep(500);
+        Console.Write("상대방의 배팅금: ");
+        Thread.Sleep(500);
+        Console.WriteLine($"{_processing.GetAiBatMoney()}");
+        Thread.Sleep(750);
+        if (_processing.GetAiMoney() == _processing.GetAiBatMoney())
+        {
+            Console.Write(">>>>>>>> 올 인 <<<<<<<<");
+        }
+    }
+
+    public void AiSelect()
+    {
+        _processing.AiSelect();
+        Console.Write("상대방이 신중하게 선택하고 있습니다");
         Thread.Sleep(500);
         Console.Write(".");
         Thread.Sleep(500);
@@ -106,66 +168,84 @@ public class TextManager
         Thread.Sleep(500);
         Console.WriteLine(".");
         Thread.Sleep(500);
-        Console.Write("컴퓨터의 선택: ");
+        Console.Write("상대방의 선택: ");
         Thread.Sleep(500);
         Console.WriteLine($"'{_processing.AiSelectToString()}'");
-        Thread.Sleep(700);
+        Thread.Sleep(750);
     }
 
-    public void BranchResult()
+    public void Result()
     {
-        PrintAiSelect();
-        var result = _processing.ResultCase(_processing.GetPlayerSelect(), _processing.GetAiSelect());
+        int playerSelect = _processing.GetPlayerSelect();
+        int aiSelect = _processing.GetAiSelect();
+        var result = _processing.GetResult(playerSelect: playerSelect, aiSelect: aiSelect);
         
         switch (result)
         {
             case 0:
                 Draw();
                 break;
-
+            
             case 1:
             case -2:
                 Victory();
                 break;
-
+            
             case -1:
             case 2:
                 Lose();
+                break;
+            
+            case 3:
+                Error();
                 break;
         }
 
         if (_processing.GetPlayerMoney() <= 0)
         {
-            Bankrupt();
-            _processing.ResetMoney();
-            _processing.ResetBatMoney(); 
+            PlayerBankrupt();
+            _count = 1;
         }
 
         if (_processing.GetPlayerMoney() >= 1000000)
         {
-            Ending1();
-            _processing.ResetMoney();
-            _processing.ResetBatMoney(); 
+            PlayerEnding();
+            _count = 1;
         }
 
-        _processing.ResetBatMoney();
+        if (_processing.GetAiMoney() <= 0)
+        {
+            AiBankrupt();
+            _count = 1;
+        }
+        
+        if (_processing.GetAiMoney() >= 1000000)
+        {
+            AiEnding();
+            _count = 1;
+        }
     }
 
+    private void Debug()
+    {
+        Console.WriteLine($"AiMoney: {_processing.GetAiMoney()}");
+        Console.WriteLine($"AiBatMoney: {_processing.GetAiBatMoney()}");
+    }
+    
     private void Victory()
     {
         Console.Clear();
-        Console.WriteLine("★ ★ ★ 승리 ★ ★ ★\n");
+        Console.WriteLine("★★★ 승리 ★★★\n");
         Thread.Sleep(500);
         Console.WriteLine("축하드립니다!\n");
         Thread.Sleep(500);
         Console.WriteLine($"배팅하신 금액은 {_processing.GetPlayerBatMoney()}원 입니다.");
-        Thread.Sleep(500);
+        Thread.Sleep(750);
         Console.Write("배팅금의 2배가 소지금에 추가됩니다.");
         Thread.Sleep(500);
         Console.WriteLine($" +{_processing.GetPlayerBatMoney() * 2}원\n");
         Thread.Sleep(500);
-        Console.WriteLine("계속하려면 Enter를 누르세요.");
-        Console.ReadLine();
+        AfterPrint();
     }
 
     private void Draw()
@@ -183,8 +263,7 @@ public class TextManager
         Thread.Sleep(500);
         Console.WriteLine($" -{_processing.GetPlayerBatMoney() * 0.5}원\n");
         Thread.Sleep(500);
-        Console.WriteLine("계속하려면 Enter를 누르세요.");
-        Console.ReadLine();
+        AfterPrint();
     }
 
     private void Lose()
@@ -195,16 +274,15 @@ public class TextManager
         Console.WriteLine("'하하'");
         Thread.Sleep(500);
         Console.WriteLine("'다음 기회를 노려보세요!'");
-        Thread.Sleep(500);
+        Thread.Sleep(750);
         Console.Write("\n배팅하신 금액을 전부 잃었습니다.");
         Thread.Sleep(500);
-        Console.WriteLine($" -{_processing.GetPlayerBatMoney()}원\n");
+        Console.WriteLine($" -{_processing.GetPlayerBatMoney()}원");
         Thread.Sleep(500);
-        Console.WriteLine("계속하려면 Enter를 누르세요.");
-        Console.ReadLine();
+        AfterPrint();
     }
 
-    private void Bankrupt()
+    private void PlayerBankrupt()
     {
         Console.Clear();
         Thread.Sleep(1000);
@@ -228,9 +306,10 @@ public class TextManager
         Thread.Sleep(1000);
         Console.WriteLine("모든 기억을 잃고 처음으로 돌아갑니다.");
         Thread.Sleep(1000);
+        AfterPrint();
     }
 
-    private void Ending1()
+    private void PlayerEnding()
     {
         Console.Clear();
         Thread.Sleep(1000);
@@ -241,41 +320,114 @@ public class TextManager
         Console.WriteLine(".");
         Thread.Sleep(1000);
         Console.WriteLine("월세가 없어 항상 고개 숙여야했던 당신은");
-        Thread.Sleep(3000);
+        Thread.Sleep(2500);
         Console.WriteLine("미친 배팅 실력으로 많은 돈을 얻었습니다.");
-        Thread.Sleep(3000);
+        Thread.Sleep(2500);
         Console.WriteLine("당신은 당당히 월세를 지불했고, 집주인에게 신뢰를 회복했습니다.");
-        Thread.Sleep(3000);
+        Thread.Sleep(2500);
         Console.WriteLine("이제 당신의 삶을 즐기십시오.");
-        Thread.Sleep(3000);
-        Console.WriteLine("\n계속하려면 Enter를 누르세요.");
-        Console.ReadLine();
+        Thread.Sleep(2500);
+        AfterPrint();
 
         Console.Clear();
         Thread.Sleep(1000);
         Console.WriteLine("당신은 도박에 빠져 방탕한 나날을 보내다");
-        Thread.Sleep(3000);
+        Thread.Sleep(2500);
         Console.Write("달려오는 차를 미처 피하지 못하고 사고를 당했습니다");
-        Thread.Sleep(3000);
+        Thread.Sleep(2500);
         Console.Write(".");
         Thread.Sleep(500);
         Console.Write(".");
-        Thread.Sleep(500);;
+        Thread.Sleep(500);
         Console.WriteLine(".");
         Thread.Sleep(2000);
         Console.WriteLine("당신은 기억을 잃었습니다");
-        Thread.Sleep(3000);
+        Thread.Sleep(2500);
         Console.WriteLine("사실은 이게 현실이었을지도 모릅니다");
-        Thread.Sleep(3000);
+        Thread.Sleep(2500);
         Console.WriteLine("모든 기억을 잃고 처음으로 돌아갑니다.");
-        Thread.Sleep(3000);
-        Console.WriteLine("\n계속하려면 Enter를 누르세요.");
-        Console.ReadLine();
+        Thread.Sleep(2500);
+        AfterPrint();
 
         Console.Clear();
         Thread.Sleep(1000);
         Console.WriteLine("당신의 삶으로 돌아가세요.");
         Thread.Sleep(1000);
+    }
+
+    public void AiBankrupt()
+    {
+        Console.Clear();
+        Thread.Sleep(1000);
+        Console.WriteLine($"상대 소지금: {_processing.GetAiMoney()}");
+        Thread.Sleep(1000);
+        Console.Write("\n.");
+        Thread.Sleep(500);
+        Console.Write(".");
+        Thread.Sleep(500);
+        Console.Write(".");
+        Thread.Sleep(500);
+        Console.Write(".");
+        Thread.Sleep(500);
+        Console.WriteLine(".");
+        Thread.Sleep(500);
+        Console.Write("'그럴리가 없어");
+        Thread.Sleep(500);
+        Console.Write(".");
+        Thread.Sleep(500);
+        Console.Write(".");
+        Thread.Sleep(1500);
+        Console.WriteLine("이거놔!!!'");
+        Thread.Sleep(2500);
+        Console.WriteLine("상대는 모든 돈을 잃어 끌려나갔습니다");
+        Thread.Sleep(2500);
+        Console.WriteLine("잘가요.");
+        AfterPrint();
+    }
+
+    public void AiEnding()
+    {
+        Console.Clear();
+        Thread.Sleep(1000);
+        Console.Write(".");
+        Thread.Sleep(1000);
+        Console.Write(".");
+        Thread.Sleep(1000);
+        Console.WriteLine(".");
+        Thread.Sleep(1000);
+        Console.WriteLine("아까 마셨던 보드카가 문제였을까요?");
+        Thread.Sleep(2500);
+        Console.WriteLine("당신은 판단력이 흐려져 큰 실수를 저지르고 말았습니다");
+        Thread.Sleep(2500);
+        Console.WriteLine("상대방은 은은한 미소를 띄우며 당신을 쳐다보았고,");
+        Thread.Sleep(2500);
+        Console.WriteLine("시시해졌다고 느꼈는지 경호원을 불러 당신을 내쫓았습니다.");
+        Thread.Sleep(2500);
+        AfterPrint();
+
+        Console.Clear();
+        Thread.Sleep(1000);
+        Console.WriteLine("시간이 꽤 지나 당신은 길거리를 걷고있습니다");
+        Thread.Sleep(2500);
+        Console.WriteLine("우연히 처음보는 게임장이 눈에 들어오는군요");
+        Thread.Sleep(2500);
+        Console.WriteLine("당신은 이끌리듯 게임장 안으로 입장하게 됩니다.");
+        Thread.Sleep(2500);
+        Console.WriteLine("(매장 안 티비소리)");
+        Thread.Sleep(2500);
+        Console.WriteLine("(앵커:지난달 초, 도박 중독에 시달리다 사망한..)");
+        Thread.Sleep(2500);
+        Console.WriteLine("(...)");
+        Thread.Sleep(2500);
+        Console.WriteLine("당신은 꽤 맘에 드는 테이블에 앉아 게임을 시작합니다.");
+        Thread.Sleep(2500);
+        AfterPrint();
+    }
+
+    private void AfterPrint()
+    {
+        Console.WriteLine("계속하려면 Enter를 누르세요.");
+        Console.ReadLine();
     }
 
     private void Error()
@@ -284,62 +436,181 @@ public class TextManager
     }
 }
 
+// @@@@@@@@@@@@@@@@@@@
+// @@@@@데이터 처리@@@@@
+// @@@@@@@@@@@@@@@@@@@
 public class Processing
 {
-    private DataBase _playerData = new DataBase();
-
-    public void SaveBatMoney(int batMoney)
-    {
-        Player player = new Player();
-        player.SetBatMoney(batMoney);
-        _playerData.SavePlayerData(player);
-    }
+    private DataBase _database;
     
-    public void ResetMoney()
+    public Processing()
     {
-        Player player = _playerData.GetPlayerData();
-        player.SetMoney(100000);
-        _playerData.SavePlayerData(player);
-    }
-    
-    public void ResetBatMoney()
-    {
-        Player player = _playerData.GetPlayerData();
-        player.SetBatMoney(0);
-        _playerData.SavePlayerData(player);
+        Player player = new Player(100000);
+        Player ai = new Player(100000);
+        _database = new DataBase(player: player, ai: ai);
     }
 
-    public void ResetAiSelect()
+    public void SelectCase(string userInput)
     {
-        Random ran = new Random();
-        _playerData.SaveAiSelect(ran.Next(3));
+        Player player = _database.GetPlayerData();
+        Player ai = _database.GetAiData();
+        
+        switch (userInput)
+        {
+            case "가위":
+            case "1":
+                player.SetSelect(0);
+                break;
+            
+            case "바위":
+            case "2":
+                player.SetSelect(1);
+                break;
+            
+            case "보":
+            case "3":
+                player.SetSelect(2);
+                break;
+            
+            case "파산":
+                player.SetSelect(3);
+                player.SetMoney(0);
+                player.SetBatMoney(0);
+                break;
+            
+            case "당첨":
+                player.SetSelect(4);
+                player.SetMoney(1000000);
+                player.SetBatMoney(0);
+                break;
+            
+            case "돚거":
+                player.SetSelect(5);
+                ai.SetMoney(0);
+                ai.SetBatMoney(0);
+                break;
+            
+            case "기부":
+                player.SetSelect(6);
+                ai.SetMoney(1000000);
+                ai.SetBatMoney(0);
+                break;
+            
+            default:
+                player.SetSelect(-1);
+                break;
+        }
+        
+        _database.SaveAiData(ai);
+        _database.SavePlayerData(player);
+    }
+    
+    public int GetResult(int playerSelect, int aiSelect)
+    {
+        Player player = _database.GetPlayerData();
+        Player ai = _database.GetAiData();
+        var playerMoney = player.GetMoney();
+        var playerBatMoney = player.GetBatMoney();
+        var aiMoney = ai.GetMoney();
+        var aiBatMoney = ai.GetBatMoney();
+        var result = playerSelect - aiSelect;
+        
+        switch (result)
+        {
+            case 0:
+                player.SetMoney(playerMoney + Convert.ToInt32(playerBatMoney * 0.5));
+                ai.SetMoney(Convert.ToInt32(aiMoney + aiBatMoney));
+                break;
+                
+            case 1:
+            case -2:
+                player.SetMoney(playerMoney + (playerBatMoney * 2));
+                break;
+                
+            case -1:
+            case 2:
+                ai.SetMoney(aiMoney + (aiBatMoney * 2));
+                break;
+            
+            default:
+                return 3;
+        }
+        
+        _database.SavePlayerData(player);
+        _database.SaveAiData(ai);
+        return result;
+    }
+    
+    public void SavePlayerBatMoney(int userInput)
+    {
+        Player player = _database.GetPlayerData();
+        player.SetMoney(GetPlayerMoney() - userInput);
+        player.SetBatMoney(userInput);
+        _database.SavePlayerData(player);
     }
     
     public int GetPlayerMoney()
     {
-        return _playerData.GetPlayerData().GetMoney();
+        return _database.GetPlayerData().GetMoney();
     }
     
     public int GetPlayerBatMoney()
     {
-        return _playerData.GetPlayerData().GetBatMoney();
+        return _database.GetPlayerData().GetBatMoney();
     }
 
     public int GetPlayerSelect()
     {
-        return _playerData.GetPlayerData().GetSelect();
+        return _database.GetPlayerData().GetSelect();
+    }
+    
+    public int GetAiMoney()
+    {
+        return _database.GetAiData().GetMoney();
+    }
+    
+    public int GetAiBatMoney()
+    {
+        return _database.GetAiData().GetBatMoney();
     }
 
     public int GetAiSelect()
     {
-        return _playerData.GetAiSelect();
+        return _database.GetAiData().GetSelect();
+    }
+
+    public void AiSelect()
+    {
+        Random ran = new Random();
+        Player ai = _database.GetAiData();
+        ai.SetSelect(ran.Next(3));
+        _database.SaveAiData(ai);
+    }
+
+    public void AiBating()
+    {
+        Random ran = new Random();
+        Player ai = _database.GetAiData();
+        
+        if (ai.GetMoney() <= 10000)
+        {
+            ai.SetBatMoney(ai.GetMoney());
+        }
+        
+        else
+        {
+            ai.SetBatMoney(ran.Next(1000, ai.GetMoney()));
+        }
+        
+        ai.SetMoney(ai.GetMoney() - ai.GetBatMoney());
+        _database.SaveAiData(ai);
     }
 
     public string AiSelectToString()
     {
         string aiSelect = "";
         
-        switch (_playerData.GetAiSelect())
+        switch (_database.GetAiData().GetSelect())
         { 
             case 0:
                 aiSelect = "가위";
@@ -357,113 +628,68 @@ public class Processing
         return aiSelect;
     }
     
-    public int ResultCase(int playerSelect, int aiSelect)
+    public bool CheckForInput(string text)
     {
-        Player player = _playerData.GetPlayerData();
-        var batMoney = player.GetBatMoney();
-        var result = playerSelect - aiSelect;
-        
-        switch (result)
+        if (!int.TryParse(text, out _))
         {
-            case 0:
-                player.SetMoney(Convert.ToInt32(batMoney * 0.5));
-                break;
-                
-            case 1:
-            case -2:
-                player.SetMoney(batMoney * 2);
-                break;
-                
-            case -1:
-            case 2:
-                player.SetMoney(batMoney * 0);
-                break;
+            return true;
         }
-        
-        _playerData.SavePlayerData(player);
-        return result;
-    }
 
-    public int SelectCase(string userInput)
-    {
-        Player player = _playerData.GetPlayerData();
-        int select;
-        
-        switch (userInput)
+        else
         {
-            case "가위":
-            case "1":
-                select = 0;
-                break;
-            
-            case "바위":
-            case "2":
-                select = 1;
-                break;
-            
-            case "보":
-            case "3":
-                select = 2;
-                break;
-            
-            case "파산":
-                select = 3;
-                player.SetMoney(0);
-                player.SetBatMoney(0);
-                break;
-            
-            case "당첨":
-                select = 4;
-                player.SetMoney(1000000);
-                player.SetBatMoney(0);
-                break;
-            
-            default:
-                select = -1;
-                break;
+            return false;
         }
-        
-        _playerData.SavePlayerData(player);
-        return select;
-    }
-    
-    public int CheckForEmpty(string text)
-    {
-        return string.IsNullOrEmpty(text) ? -1 : 0;
     }
 }
 
+// @@@@@@@@@@@@@@@@@@@
+// @@@@데이터 저장소@@@@
+// @@@@@@@@@@@@@@@@@@@
 public class DataBase
 {
-    private Player _playerData = new Player();
-    private int _aiSelect;
+    private Player _playerData;
+    private Player _aiData;
+
+    public DataBase(Player player, Player ai)
+    {
+        _playerData = player;
+        _aiData = ai;
+    }
 
     public Player GetPlayerData()
     {
         return _playerData;
     }
     
+    public Player GetAiData()
+    {
+        return _aiData;
+    }
+
     public void SavePlayerData(Player player)
     {
-        _playerData = player;
+        this._playerData = player;
     }
     
-    public int GetAiSelect()
+    public void SaveAiData(Player ai)
     {
-        return this._aiSelect;
-    }
-    
-    public void SaveAiSelect(int num)
-    {
-        this._aiSelect = num;
+        this._aiData = ai;
     }
 }
 
+// @@@@@@@@@@@@@@@@@@@
+// @@@객체 기본 데이터@@@
+// @@@@@@@@@@@@@@@@@@@
 public class Player
 {
     private int _money;
     private int _batMoney;
     private int _select;
+
+    public Player(int money)
+    {
+        this._money = money;
+    }
 
     public int GetMoney()
     {
