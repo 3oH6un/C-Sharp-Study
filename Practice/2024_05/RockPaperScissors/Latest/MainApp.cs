@@ -4,7 +4,7 @@ namespace Practice._2024_05.RockPaperScissors.Latest;
 
 public class MainApp
 {
-    static void Main()
+    static void _Main()
     {
         TextManager textManager = new TextManager();
         while (true)

@@ -1,4 +1,4 @@
-﻿namespace Practice._2024_06.Calculator.Initial;
+﻿namespace Practice._2024_06.Calculator.Latest;
 
 public class MainApp
 {

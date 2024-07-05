@@ -1,4 +1,4 @@
-namespace Practice._2024_05.Practice_2;
+namespace Practice._2024_05.Practice._2;
 
 public class MainApp
 {
