@@ -2,7 +2,7 @@
 
 public class MainApp
 {
-    public static void Main(string[] args)
+    public static void _Main(string[] args)
     {
         Converter converter = new Converter();
         Controller controller = new Controller(converter);
