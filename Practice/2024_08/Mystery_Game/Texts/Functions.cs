@@ -1,8 +1,7 @@
 ﻿using static System.Console;
+namespace Practice._2024_08.Mystery_Game.Texts;
 
-namespace Practice._2024_08.Mystery_Game;
-
-public static class Function
+public static class Functions
 {
     private static readonly Debug Debug = new Debug();
     

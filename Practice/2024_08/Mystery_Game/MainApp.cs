@@ -1,3 +1,4 @@
+using Practice._2024_08.Mystery_Game.Texts;
 namespace Practice._2024_08.Mystery_Game;
 
 public class MainApp
@@ -12,10 +13,10 @@ public class MainApp
             TextManager controller = new TextManager(gameManager);
 
             // 게임 시작 메시지 출력
-            controller.StartGameText();
+            controller.FirstStartText();
             
             // 게임 A 시작
-            controller.GameA();
+            controller.StartGameA();
         }
     }
 }

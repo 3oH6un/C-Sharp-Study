@@ -1,5 +1,4 @@
 using System.Runtime.CompilerServices;
-
 namespace Practice._2024_08.Mystery_Game;
 
 /// <summary>
