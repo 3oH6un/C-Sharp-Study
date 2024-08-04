@@ -2,7 +2,7 @@
 
 public class GameE
 {
-    public static void PrintText()
+    public void PrintText1()
     {
         
     }

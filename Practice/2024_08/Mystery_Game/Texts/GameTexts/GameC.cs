@@ -2,7 +2,7 @@
 
 public class GameC
 {
-    public static void PrintText()
+    public void PrintText1()
     {
         
     }

@@ -1,9 +1,9 @@
 ﻿using static System.Console;
 namespace Practice._2024_08.Mystery_Game.Texts.GameTexts;
 
-public static class GameA
+public class GameA
 {
-    public static void PrintText()
+    public void PrintText1()
     {
         Clear();
         Functions.TextDelay("퇴근 후 집으로 가는 길...");
@@ -43,5 +43,21 @@ public static class GameA
         Clear();
         Functions.TextDelay("여긴... 어디지...");
         Functions.GetUserInput();
+        
+        Clear();
+        Functions.TextDelay("차가운 나무 바닥.. 낡은 테이블과 깨진 거울, 다 헤져있는 침대가 놓여져있는 방..");
+        Functions.GetUserInput();
+        
+        Clear();
+        Functions.TextDelay("방 문은 굳게 닫혀있고 문에는 '404호'라고 쓰여져있다.");
+        Functions.GetUserInput();
+    }
+
+    public void PrintMain()
+    {
+        Clear();
+        WriteLine("CHAPTER 1, 404호");
+        WriteLine("> 조사하기 ( 조사 )");
+        WriteLine("> 소지품확인 ( 소지품 )");
     }
 }

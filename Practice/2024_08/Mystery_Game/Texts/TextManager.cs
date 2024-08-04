@@ -10,6 +10,11 @@ public class TextManager
 {
     // 게임 매니저 객체 선언
     private readonly GameManager _gameManager;
+    private readonly GameA _gameA = new GameA();
+    private readonly GameB _gameB = new GameB();
+    private readonly GameC _gameC = new GameC();
+    private readonly GameD _gameD = new GameD();
+    private readonly GameE _gameE = new GameE();
     
     // 기본 생성자, 객체 비어있는지 확인, 의존성 주입
     public TextManager(GameManager gameManager)
@@ -29,12 +34,38 @@ public class TextManager
          Clear();
          WriteLine("이야기 진행은 Enter키를 눌러주세요.");
          Functions.GetUserInput();
+         
+         Clear();
+         WriteLine("게임 진행시 선택지에서 괄호() 안에 단어로도 선택할 수 있습니다.");
+         Functions.GetUserInput();
      }
     
     // 각 게임별 메시지
-    public void StartGameA() { GameA.PrintText(); }
-    public void StartGameB() { GameB.PrintText(); }
-    public void StartGameC() { GameC.PrintText(); }
-    public void StartGameD() { GameD.PrintText(); }
-    public void StartGameE() { GameE.PrintText(); }
+    public void StartGameA()
+    {
+        _gameA.PrintText1();
+
+        while (true)
+        {
+            _gameA.PrintMain();
+            string userInput = Functions.GetUserInput();
+            
+            switch (_gameManager.PlayerSelect(userInput))
+            {
+                case 0:
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                //
+                // 여기부터 다시
+                //
+            }
+        }
+    }
+    public void StartGameB() { _gameB.PrintText1(); }
+    public void StartGameC() { _gameC.PrintText1(); }
+    public void StartGameD() { _gameD.PrintText1(); }
+    public void StartGameE() { _gameE.PrintText1(); }
 }

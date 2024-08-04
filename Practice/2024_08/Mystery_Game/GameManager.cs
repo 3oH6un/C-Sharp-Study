@@ -15,4 +15,16 @@ public class GameManager
     {
         _player = player;
     }
+
+    public int PlayerSelect(string select)
+    {
+        if (select == "조사" || select == "조사하기")
+            return 1;
+
+        if (select == "확인" || select == "단서확인")
+            return 2;
+
+        else
+            return 0;
+    }
 }
