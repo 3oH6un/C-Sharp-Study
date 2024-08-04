@@ -7,16 +7,16 @@ public class MainApp
     {
         while (true)
         {
-            // 각 객체 선언 및 초기화
+            // 각 객체 선언 및 초기화, 의존성 주입
             Player player = new Player();
             GameManager gameManager = new GameManager(player);
-            TextManager controller = new TextManager(gameManager);
+            TextManager textManager = new TextManager(gameManager);
 
             // 게임 시작 메시지 출력
-            controller.FirstStartText();
+            textManager.FirstStartText();
             
             // 게임 A 시작
-            controller.StartGameA();
+            textManager.StartGameA();
         }
     }
 }

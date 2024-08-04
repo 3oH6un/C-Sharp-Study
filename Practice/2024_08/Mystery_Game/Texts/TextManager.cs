@@ -3,15 +3,21 @@ using static System.Console;
 
 namespace Practice._2024_08.Mystery_Game.Texts;
 
+/// <summary>
+/// 입출력 관리
+/// </summary>
 public class TextManager
 {
+    // 게임 매니저 객체 선언
     private readonly GameManager _gameManager;
     
+    // 기본 생성자, 객체 비어있는지 확인, 의존성 주입
     public TextManager(GameManager gameManager)
      {
          this._gameManager = gameManager ?? throw new ArgumentNullException(nameof(gameManager));
      }
     
+    // 초기 시작 메시지 출력
     public void FirstStartText()
      {
          Clear();
@@ -25,6 +31,7 @@ public class TextManager
          Functions.GetUserInput();
      }
     
+    // 각 게임별 메시지
     public void StartGameA() { GameA.PrintText(); }
     public void StartGameB() { GameB.PrintText(); }
     public void StartGameC() { GameC.PrintText(); }

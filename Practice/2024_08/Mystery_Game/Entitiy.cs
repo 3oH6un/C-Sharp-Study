@@ -1,5 +1,8 @@
 namespace Practice._2024_08.Mystery_Game;
 
+/// <summary>
+/// 플레이어 객체
+/// </summary>
 public class Player
 {
     // 도구들을 담아두는 컬렉션

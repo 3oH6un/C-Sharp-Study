@@ -3,6 +3,7 @@ namespace Practice._2024_08.Mystery_Game.Texts;
 
 public static class Functions
 {
+    // 디버그용 객체 선언 및 초기화
     private static readonly Debug Debug = new Debug();
     
     // 메시지 한글자씩 출력
