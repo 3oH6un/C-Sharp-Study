@@ -1,20 +1,38 @@
 namespace Practice._2024_08.Mystery_Game;
 
-/// <summary>
-/// 인물 객체
-/// </summary>
-public class Person
+public class Player
 {
-    private readonly string _name;
+    // 도구들을 담아두는 컬렉션
+    private readonly List<Tool> _tools;
 
-    public Person(string name)
+    // 기본 생성자
+    public Player()
     {
-        this._name = name;
+        _tools = new List<Tool>();
+    }
+    
+    // 읽기 전용 인터페이스 메서드
+    public IReadOnlyList<Tool> GetTools()
+    {
+        return _tools.AsReadOnly();
     }
 
-    public string GetName()
+    // 도구 추가
+    public void AddTool(Tool tool)
     {
-        return this._name;
+        _tools.Add(tool);
+    }
+    
+    // 도구 삭제
+    public void RemoveTool(Tool tool)
+    {
+        _tools.Remove(tool);
+    }
+
+    // 도구 전부 삭제
+    public void ClearTools()
+    {
+        _tools.Clear();
     }
 }
 
@@ -23,15 +41,14 @@ public class Person
 /// </summary>
 public class Tool
 {
-    private readonly string _name;
+    // public으로 설정해두고 set접근자만 private로 객체 외부에서 수정 불가능하게 막아둠
+    public string Name { get; private set; }
+    public string Description { get; private set; }
 
-    public Tool(string name)
+    // 기본 생성자
+    public Tool(string name, string description)
     {
-        this._name = name;
-    }
-
-    public string GetName()
-    {
-        return this._name;
+        Name = name;
+        Description = description;
     }
 }

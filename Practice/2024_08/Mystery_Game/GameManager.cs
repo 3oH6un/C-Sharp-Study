@@ -7,22 +7,11 @@ namespace Practice._2024_08.Mystery_Game;
 /// </summary>
 public class GameManager
 {
-    private List<Person> _persons = [];
-    private List<Tool> _tools = [];
+    private Player _player;
+    private int _gameCount;
 
-    public void AddPlayer(string name)
+    public GameManager(Player player)
     {
-        Person player = new Person(name);
-        this._persons.Add(player);
-    }
-
-    public void SetTools(Tool tool)
-    {
-        this._tools.Add(tool);
-    }
-
-    public bool CheckForEmtpy(string text)
-    {
-        return string.IsNullOrEmpty(text);
+        _player = player;
     }
 }

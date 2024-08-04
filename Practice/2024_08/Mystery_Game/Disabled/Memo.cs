@@ -19,7 +19,7 @@ public struct GameGame { public GameGame() {} private string memo =
         5. 범인 추리
         6. 결과
                           
-                                   <범죄는 흔적을 남긴다>
+            <범죄는 흔적을 남긴다>
         2024년, 여름, 무인도
         본인 포함 총 5명의 소모임
         몇 번의 모임을 가지다 운 좋게 외딴 섬의 별장을 빌려 휴가를 떠난다
