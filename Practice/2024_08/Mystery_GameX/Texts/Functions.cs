@@ -1,5 +1,5 @@
 ﻿using static System.Console;
-namespace Practice._2024_08.Mystery_Game.Texts;
+namespace Practice._2024_08.Mystery_GameX.Texts;
 
 public static class Functions
 {

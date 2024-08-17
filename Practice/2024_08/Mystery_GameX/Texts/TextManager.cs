@@ -1,7 +1,8 @@
-﻿using Practice._2024_08.Mystery_Game.Texts.GameTexts;
+﻿using Practice._2024_08.Mystery_GameX.Texts.GameTexts;
+using Practice._2024_08.Mystery_GameX.Texts.GameTexts;
 using static System.Console;
 
-namespace Practice._2024_08.Mystery_Game.Texts;
+namespace Practice._2024_08.Mystery_GameX.Texts;
 
 /// <summary>
 /// 입출력 관리

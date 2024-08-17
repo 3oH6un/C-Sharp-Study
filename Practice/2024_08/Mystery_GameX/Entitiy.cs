@@ -1,4 +1,4 @@
-namespace Practice._2024_08.Mystery_Game;
+namespace Practice._2024_08.Mystery_GameX;
 
 /// <summary>
 /// 플레이어 객체
