@@ -1,5 +1,5 @@
 ﻿using static System.Console;
-namespace Practice._2024_08.Mystery_Game.Texts.GameTexts;
+namespace Practice._2024_08.Mystery_GameX.Texts.GameTexts;
 
 public class GameA
 {
